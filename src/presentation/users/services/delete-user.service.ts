@@ -1,3 +1,4 @@
+import { CustomError } from '../../../domain';
 import { FinderUserService } from './finder-users.service';
 
 export class DeleteUserService {
@@ -6,16 +7,14 @@ export class DeleteUserService {
   async execute(id: string) {
     const user = await this.fiderUserService.executeByFindOne(id);
 
-    user.status = false;
-
     try {
-      await user.save();
+      await user.remove();
       return {
         message: 'user delete succesfully ✨',
       };
     } catch (error) {
       console.error(error);
-      throw new Error('failed to delete user');
+      throw CustomError.internalServerError('failed to delete user');
     }
   }
 }

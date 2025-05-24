@@ -4,6 +4,7 @@ import { LoginUserService } from './services/login-user.service';
 import { FinderUserService } from './services/finder-users.service';
 import { UpdateUserService } from './services/update-user.service';
 import { DeleteUserService } from './services/delete-user.service';
+import { handleError } from '../common/handleError';
 
 export class UserController {
   constructor(
@@ -19,9 +20,7 @@ export class UserController {
     this.registerUserService
       .execute(data)
       .then((result) => res.status(201).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   loginUser = (req: Request, res: Response) => {
@@ -30,18 +29,14 @@ export class UserController {
     this.loginUserService
       .execute(data)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   findAllUsers = (req: Request, res: Response) => {
     this.finderUserService
       .executeByFindAll()
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   finOneUser = (req: Request, res: Response) => {
@@ -49,9 +44,7 @@ export class UserController {
     this.finderUserService
       .executeByFindOne(id)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   updateUser = (req: Request, res: Response) => {
@@ -61,9 +54,7 @@ export class UserController {
     this.updateUserService
       .execute(id, data)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   deleteUser = (req: Request, res: Response) => {
@@ -71,8 +62,6 @@ export class UserController {
     this.deleteUserService
       .execute(id)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 }

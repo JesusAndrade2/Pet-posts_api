@@ -1,4 +1,5 @@
 import { User } from '../../../data';
+import { CustomError } from '../../../domain';
 
 export class RegisterUserService {
   async execute(data: any) {
@@ -13,8 +14,7 @@ export class RegisterUserService {
         message: 'user create succesfully 👌',
       };
     } catch (error) {
-      console.error('error creating user');
-      throw new Error('failed to create user');
+      throw CustomError.internalServerError('failed to register user');
     }
   }
 }

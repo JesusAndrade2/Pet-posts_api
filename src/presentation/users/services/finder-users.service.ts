@@ -1,8 +1,12 @@
 import { User } from '../../../data';
+import { CustomError } from '../../../domain';
 
 export class FinderUserService {
   async executeByFindAll() {
-    const users = await User.find({ where: { status: true } });
+    const users = await User.find({
+      select: ['id', 'name', 'email', 'role'],
+      where: { status: true },
+    });
     return users;
   }
 
@@ -10,7 +14,7 @@ export class FinderUserService {
     const user = await User.findOne({ where: { id: id, status: true } });
 
     if (!user) {
-      throw new Error('user not found');
+      throw CustomError.notFound('user not found');
     }
     return user;
   }
@@ -19,7 +23,7 @@ export class FinderUserService {
     const user = await User.findOne({ where: { name: name, status: true } });
 
     if (!user) {
-      throw new Error('user not found');
+      throw CustomError.notFound('user not found');
     }
     return user;
   }

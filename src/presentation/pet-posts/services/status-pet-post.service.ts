@@ -1,4 +1,5 @@
 import { PetPostStatus } from '../../../data';
+import { CustomError } from '../../../domain';
 import { FinderPetPostService } from './finder-pet-posts.service';
 
 export class StatusPetPostService {
@@ -15,8 +16,7 @@ export class StatusPetPostService {
         message: 'petPost approved succesfully ',
       };
     } catch (error) {
-      console.error('error approving pet-post:', error);
-      throw new Error('failed to approved pet-post');
+      throw CustomError.internalServerError('failed to approved pet-post');
     }
   }
 
@@ -31,8 +31,7 @@ export class StatusPetPostService {
         message: 'petPost rejected succesfully ',
       };
     } catch (error) {
-      console.error('error rejecting pet-post:', error);
-      throw new Error('failed to rejected pet-post');
+      throw CustomError.internalServerError('failed to rejected pet-post');
     }
   }
 }

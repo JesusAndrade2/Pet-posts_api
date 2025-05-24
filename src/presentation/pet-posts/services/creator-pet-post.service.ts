@@ -1,4 +1,5 @@
 import { PetPost } from '../../../data';
+import { CustomError } from '../../../domain';
 import { FinderUserService } from '../../users/services/finder-users.service';
 
 export class CreatePetPostService {
@@ -21,8 +22,7 @@ export class CreatePetPostService {
         message: 'pet-post create succesfully',
       };
     } catch (error) {
-      console.error('error creating pet-post', error);
-      throw new Error('failed to create pet-post');
+      throw CustomError.internalServerError('failed to create pet post');
     }
   }
 }

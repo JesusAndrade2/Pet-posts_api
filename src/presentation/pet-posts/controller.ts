@@ -4,6 +4,7 @@ import { FinderPetPostService } from './services/finder-pet-posts.service';
 import { UpdatePetPostService } from './services/update-pet-post.service';
 import { DeletePetPostService } from './services/delete-pet-post.service';
 import { StatusPetPostService } from './services/status-pet-post.service';
+import { handleError } from '../common/handleError';
 
 export class PetPostController {
   constructor(
@@ -19,18 +20,14 @@ export class PetPostController {
     this.createPetPostService
       .execute(data)
       .then((result) => res.status(201).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   findALlPetPost = (req: Request, res: Response) => {
     this.finderPetPostService
       .executeByFindAll()
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   findOnePetPost = (req: Request, res: Response) => {
@@ -38,9 +35,7 @@ export class PetPostController {
     this.finderPetPostService
       .executeByFindOne(id)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   updatePetPost = (req: Request, res: Response) => {
@@ -50,9 +45,7 @@ export class PetPostController {
     this.updatePetPostService
       .execute(id, data)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   deletePetPost = (req: Request, res: Response) => {
@@ -60,9 +53,7 @@ export class PetPostController {
     this.deletePetPostService
       .execute(id)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   approvePetPost = (req: Request, res: Response) => {
@@ -70,9 +61,7 @@ export class PetPostController {
     this.statusPetPostService
       .executeByApproved(id)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 
   rejectPetPost = (req: Request, res: Response) => {
@@ -80,8 +69,6 @@ export class PetPostController {
     this.statusPetPostService
       .executeByRejected(id)
       .then((result) => res.status(200).json(result))
-      .catch((error) => {
-        return res.status(500).json(error);
-      });
+      .catch((error) => handleError(error, res));
   };
 }

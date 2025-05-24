@@ -1,8 +1,11 @@
 import { PetPost } from '../../../data';
+import { CustomError } from '../../../domain';
 
 export class FinderPetPostService {
   async executeByFindAll() {
-    const petPosts = await PetPost.find({ where: { hasFound: false } });
+    const petPosts = await PetPost.find({
+      where: { hasFound: false },
+    });
     return petPosts;
   }
 
@@ -12,7 +15,7 @@ export class FinderPetPostService {
     });
 
     if (!petPost) {
-      throw new Error('user not found');
+      throw CustomError.notFound('user not found');
     }
     return petPost;
   }

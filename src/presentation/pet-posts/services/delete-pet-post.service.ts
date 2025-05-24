@@ -1,3 +1,4 @@
+import { CustomError } from '../../../domain';
 import { FinderPetPostService } from './finder-pet-posts.service';
 
 export class DeletePetPostService {
@@ -15,7 +16,7 @@ export class DeletePetPostService {
       };
     } catch (error) {
       console.error(error);
-      throw new Error('failed to delete Pet-Post');
+      throw CustomError.internalServerError('failed to delete Pet-Post');
     }
   }
 }
