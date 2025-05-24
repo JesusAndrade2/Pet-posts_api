@@ -17,23 +17,25 @@ export class User extends BaseEntity {
   id: string;
 
   @Column('varchar', {
-    length: 255,
+    length: 70,
+    nullable: false,
   })
   name: string;
 
-  @Column('varchar', { length: 255 })
+  @Column('varchar', { length: 100, unique: true, nullable: false })
   email: string;
 
-  @Column('varchar', { length: 255 })
+  @Column('varchar', { length: 255, nullable: false })
   password: string;
 
   @Column('enum', {
+    nullable: false,
     enum: UserRol,
     default: UserRol.USER,
   })
   role: UserRol;
 
-  @Column('boolean', { default: true })
+  @Column('boolean', { default: false, nullable: false })
   status: boolean;
 
   @CreateDateColumn()

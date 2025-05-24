@@ -5,6 +5,8 @@ import { UpdatePetPostService } from './services/update-pet-post.service';
 import { DeletePetPostService } from './services/delete-pet-post.service';
 import { StatusPetPostService } from './services/status-pet-post.service';
 import { handleError } from '../common/handleError';
+import { CreatePetPostsDto } from '../../domain/dtos/pet-posts/create-pet-post.dto';
+import { UpdatePetPostsDto } from '../../domain/dtos/pet-posts/update-pet-posts.dto';
 
 export class PetPostController {
   constructor(
@@ -16,9 +18,16 @@ export class PetPostController {
   ) {}
 
   createPetPost = (req: Request, res: Response) => {
-    const data = req.body;
+    const [error, data] = CreatePetPostsDto.execute(req.body);
+
+    if (error) {
+      return res.status(422).json({
+        estatus: 'error',
+        message: error,
+      });
+    }
     this.createPetPostService
-      .execute(data)
+      .execute(data!)
       .then((result) => res.status(201).json(result))
       .catch((error) => handleError(error, res));
   };
@@ -40,10 +49,17 @@ export class PetPostController {
 
   updatePetPost = (req: Request, res: Response) => {
     const { id } = req.params;
-    const data = req.body;
+    const [error, data] = UpdatePetPostsDto.execute(req.body);
+
+    if (error) {
+      return res.status(422).json({
+        estatus: 'error',
+        message: error,
+      });
+    }
 
     this.updatePetPostService
-      .execute(id, data)
+      .execute(id, data!)
       .then((result) => res.status(200).json(result))
       .catch((error) => handleError(error, res));
   };

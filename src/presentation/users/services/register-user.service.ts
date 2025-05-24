@@ -1,8 +1,8 @@
 import { User } from '../../../data';
-import { CustomError } from '../../../domain';
+import { CustomError, RegisterUserDto } from '../../../domain';
 
 export class RegisterUserService {
-  async execute(data: any) {
+  async execute(data: RegisterUserDto) {
     const user = new User();
     user.name = data.name;
     user.email = data.email;

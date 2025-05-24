@@ -13,7 +13,6 @@ export class DeleteUserService {
         message: 'user delete succesfully ✨',
       };
     } catch (error) {
-      console.error(error);
       throw CustomError.internalServerError('failed to delete user');
     }
   }
