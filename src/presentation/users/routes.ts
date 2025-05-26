@@ -8,6 +8,8 @@ import { DeleteUserService } from './services/delete-user.service';
 import { EmailService } from '../common/services/email.service';
 import { envs } from '../../config';
 import { send } from 'process';
+import { AuthMiddleware } from '../common/middlewares/auth.middleware';
+import { UserRol } from '../../data';
 
 export class UserRoutes {
   static get routes(): Router {
@@ -33,13 +35,26 @@ export class UserRoutes {
       deleteUserService
     );
 
-    router.get('/validate-account/:token', userController.validateAccount);
     router.post('/register', userController.userRegister);
     router.post('/login', userController.loginUser);
-    router.get('/', userController.findAllUsers);
+    router.get('/validate-account/:token', userController.validateAccount);
+    router.use(AuthMiddleware.protect);
+    router.get(
+      '/',
+      AuthMiddleware.restrictTo(UserRol.ADMIN),
+      userController.findAllUsers
+    );
     router.get('/:id', userController.finOneUser);
-    router.patch('/:id', userController.updateUser);
-    router.delete('/:id', userController.deleteUser);
+    router.patch(
+      '/:id',
+      AuthMiddleware.restrictTo(UserRol.ADMIN, UserRol.USER),
+      userController.updateUser
+    );
+    router.delete(
+      '/:id',
+      AuthMiddleware.restrictTo(UserRol.ADMIN),
+      userController.deleteUser
+    );
 
     return router;
   }

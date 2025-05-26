@@ -12,6 +12,7 @@ export const envs = {
   DATABASE_NAME: get('DATABASE_NAME').required().asString(),
 
   JWT_KEY: get('JWT_KEY').required().asString(),
+  JWET_EXPIRE_IN: get('JWET_EXPIRE_IN').required().asString(),
   MAYLER_SERVICE: get('MAYLER_SERVICE').required().asString(),
   MAYLER_EMAIL: get('MAYLER_EMAIL').required().asString(),
   MAYLER_SECRET_KEY: get('MAYLER_SECRET_KEY').required().asString(),

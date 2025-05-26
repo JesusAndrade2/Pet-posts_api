@@ -52,7 +52,15 @@ export class UserController {
 
     this.loginUserService
       .execute(data!)
-      .then((result) => res.status(200).json(result))
+      .then((data) => {
+        res.cookie('token', data.token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'strict',
+          maxAge: 3 * 60 * 60 * 1000,
+        });
+        res.status(200).json(data);
+      })
       .catch((error) => handleError(error, res));
   };
 
