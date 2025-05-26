@@ -10,4 +10,10 @@ export const envs = {
   DATABASE_HOST: get('DATABASE_HOST').required().asString(),
   DATABASE_PORT: get('DATABASE_PORT').required().asPortNumber(),
   DATABASE_NAME: get('DATABASE_NAME').required().asString(),
+
+  JWT_KEY: get('JWT_KEY').required().asString(),
+  MAYLER_SERVICE: get('MAYLER_SERVICE').required().asString(),
+  MAYLER_EMAIL: get('MAYLER_EMAIL').required().asString(),
+  MAYLER_SECRET_KEY: get('MAYLER_SECRET_KEY').required().asString(),
+  SEND_MAIL: get('SEND_MAIL').required().asBool(),
 };

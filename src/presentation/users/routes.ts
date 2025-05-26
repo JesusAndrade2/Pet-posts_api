@@ -5,12 +5,21 @@ import { FinderUserService } from './services/finder-users.service';
 import { LoginUserService } from './services/login-user.service';
 import { UpdateUserService } from './services/update-user.service';
 import { DeleteUserService } from './services/delete-user.service';
+import { EmailService } from '../common/services/email.service';
+import { envs } from '../../config';
+import { send } from 'process';
 
 export class UserRoutes {
   static get routes(): Router {
     const router = Router();
 
-    const registerUserService = new RegisterUserService();
+    const emailService = new EmailService(
+      envs.MAYLER_SERVICE,
+      envs.MAYLER_EMAIL,
+      envs.MAYLER_SECRET_KEY,
+      envs.SEND_MAIL
+    );
+    const registerUserService = new RegisterUserService(emailService);
     const finderUsersService = new FinderUserService();
     const loginUserService = new LoginUserService(finderUsersService);
     const updateUserService = new UpdateUserService(finderUsersService);
@@ -24,6 +33,7 @@ export class UserRoutes {
       deleteUserService
     );
 
+    router.get('/validate-account/:token', userController.validateAccount);
     router.post('/register', userController.userRegister);
     router.post('/login', userController.loginUser);
     router.get('/', userController.findAllUsers);

@@ -16,6 +16,15 @@ export class UserController {
     private readonly deleteUserService: DeleteUserService
   ) {}
 
+  validateAccount = (req: Request, res: Response) => {
+    const { token } = req.params;
+
+    this.registerUserService
+      .validateAccount(token)
+      .then((result) => res.status(201).json(result))
+      .catch((error) => handleError(error, res));
+  };
+
   userRegister = (req: Request, res: Response) => {
     const [error, data] = RegisterUserDto.execute(req.body);
 
