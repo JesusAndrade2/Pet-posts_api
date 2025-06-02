@@ -47,7 +47,7 @@ export class CreatePetPostsDto {
     const result = safeParse(CreatePetPostsSchema, input);
 
     if (!result.success) {
-      const error = result.issues[0]?.message ?? 'validacion failed';
+      const error = result.issues[0]?.message ?? 'validation failed';
       return [error];
     }
 

@@ -22,7 +22,7 @@ export class PetPostController {
 
     if (error) {
       return res.status(422).json({
-        estatus: 'error',
+        status: 'validate error',
         message: error,
       });
     }
@@ -53,7 +53,7 @@ export class PetPostController {
 
     if (error) {
       return res.status(422).json({
-        estatus: 'error',
+        status: 'validate error',
         message: error,
       });
     }

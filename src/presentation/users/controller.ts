@@ -30,7 +30,7 @@ export class UserController {
 
     if (error) {
       res.status(422).json({
-        status: 'error',
+        status: 'validate error',
         message: error,
       });
     }
@@ -45,7 +45,7 @@ export class UserController {
 
     if (error) {
       res.status(422).json({
-        status: 'error',
+        status: 'validate error',
         message: error,
       });
     }
@@ -85,7 +85,7 @@ export class UserController {
 
     if (error) {
       res.status(422).json({
-        status: 'error',
+        status: 'validate error',
         message: error,
       });
     }

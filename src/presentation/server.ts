@@ -1,5 +1,8 @@
 import express, { Router } from 'express';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import hpp from 'hpp';
 
 /**
  * interface que define las opciones para inicializar el servidor
@@ -45,9 +48,19 @@ export class Server {
    * ```
    */
   async start() {
+    const limiter = rateLimit({
+      windowMs: 15 * 60 * 1000,
+      limit: 10,
+    });
+
     this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(express.json({ limit: '100kb' }));
+    this.app.use(express.urlencoded({ extended: true, limit: '50kb' }));
     this.app.use(cookieParser());
+    this.app.disable('x-powered-by');
+    this.app.use(helmet());
+    this.app.use(limiter);
+    this.app.use(hpp());
 
     this.app.use(this.routes);
 
