@@ -50,7 +50,7 @@ export class Server {
   async start() {
     const limiter = rateLimit({
       windowMs: 15 * 60 * 1000,
-      limit: 10,
+      limit: 50,
     });
 
     this.app.use(express.json());

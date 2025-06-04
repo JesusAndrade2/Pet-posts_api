@@ -8,17 +8,13 @@ export class CreatePetPostService {
 
   async execute(data: CreatePetPostsDto) {
     const petPost = new PetPost();
-    const owner = await this.finderUsersService.executeByEmail0rName(
-      '',
-      data.owner
-    );
+    const owner = await this.finderUsersService.executeByFindOne(data.ownerId);
 
-    console.log(owner);
-    if (!owner) return { message: 'user dont have any account' };
+    if (!owner) throw CustomError.notFound('user dont have any account');
 
     petPost.pet_name = data.pet_name;
     petPost.description = data.description;
-    petPost.owner = owner.id;
+    petPost.user = owner;
     petPost.image_url = data.image_url;
 
     try {

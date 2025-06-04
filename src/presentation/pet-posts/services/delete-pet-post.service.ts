@@ -15,7 +15,6 @@ export class DeletePetPostService {
         message: 'Pet-Post delete succesfully ✨',
       };
     } catch (error) {
-      console.error(error);
       throw CustomError.internalServerError('failed to delete Pet-Post');
     }
   }

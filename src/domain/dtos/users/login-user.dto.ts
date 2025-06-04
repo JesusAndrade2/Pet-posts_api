@@ -10,12 +10,12 @@ import {
 
 export const LoginUserSchema = object({
   email: pipe(
-    string('password is required'),
+    string('email is not format required '),
     nonEmpty('please enter your email'),
     email('the email addres is badly formatted')
   ),
   password: pipe(
-    string('password is required'),
+    string('password is not format required'),
     nonEmpty('please enter your password'),
     minLength(8, 'password must be at least 8 characters long')
   ),
@@ -28,10 +28,17 @@ export class LoginUserDto {
   ) {}
 
   static execute(input: { [key: string]: any }): [string?, LoginUserDto?] {
+    if (!('email' in input)) {
+      return ['email is required'];
+    }
+    if (!('password' in input)) {
+      return ['password is required'];
+    }
+
     const result = safeParse(LoginUserSchema, input);
 
     if (!result.success) {
-      const error = result.issues[0]?.message ?? 'validacion failed';
+      const error = result.issues[0]?.message ?? 'validation failed';
       return [error];
     }
 

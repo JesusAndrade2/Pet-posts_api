@@ -11,8 +11,9 @@ export class RegisterUserService {
 
     const { email } = payload as { email: string };
 
-    if (!email)
-      throw CustomError.internalServerError('email not found in token');
+    if (!email) {
+      throw CustomError.internalServerError('email is not found in token');
+    }
 
     const user = await this.ensureUserExistWithEmail(email);
 
@@ -28,7 +29,7 @@ export class RegisterUserService {
 
   private sendLinktoEmailFromValidationAcoount = async (email: string) => {
     const token = await JwtAdapter.generateToken({ email }, '600s');
-    if (!token) throw CustomError.internalServerError('erroe getting token');
+    if (!token) throw CustomError.internalServerError('error getting token');
 
     const link = `http://www.localhost:3000/api/v1/users/validate-account/${token}`;
     console.log(link);
@@ -64,7 +65,7 @@ export class RegisterUserService {
 
   private async validateToken(token: string) {
     const payload = await JwtAdapter.validateToken(token);
-    if (!payload) throw CustomError.badRequest('invalid token');
+    if (!payload) throw CustomError.badRequest('invalid email token');
     return payload;
   }
 

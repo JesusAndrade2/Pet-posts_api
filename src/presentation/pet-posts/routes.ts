@@ -36,7 +36,7 @@ export class PetPostRoutes {
 
     router.post(
       '/',
-      AuthMiddleware.restrictTo(UserRol.USER),
+      AuthMiddleware.restrictTo(UserRol.USER, UserRol.ADMIN),
       petPostController.createPetPost
     );
     router.get('/', petPostController.findALlPetPost);

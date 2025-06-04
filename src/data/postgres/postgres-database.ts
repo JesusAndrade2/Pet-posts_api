@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
 import { User } from './models/user.model';
 import { PetPost } from './models/pet-post.model';
+import { CustomError } from '../../domain';
 
 /**
  * interface que define las opciones para hacer la conexion a la base de datos
@@ -75,7 +76,9 @@ export class PostgresDatabase {
       await this.datasource.initialize();
       console.log('Postgres database connected successfully 👌.');
     } catch (error) {
-      console.error(error);
+      throw CustomError.internalServerError(
+        'Not conected to Postgres Database ☠'
+      );
     }
   }
 }

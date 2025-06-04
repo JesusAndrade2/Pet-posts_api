@@ -4,14 +4,22 @@ import { CustomError } from '../../../domain';
 export class FinderUserService {
   async executeByFindAll() {
     const users = await User.find({
-      select: ['id', 'name', 'email', 'role'],
-      where: { status: true },
+      relations: {
+        pet_post: true,
+      },
+      select: ['id', 'name', 'email', 'role', 'status', 'created_at'],
     });
     return users;
   }
 
   async executeByFindOne(id: string) {
-    const user = await User.findOne({ where: { id: id, status: true } });
+    const user = await User.findOne({
+      where: { id: id, status: true },
+      relations: {
+        pet_post: true,
+      },
+      select: ['id', 'name', 'email', 'role', 'status', 'created_at'],
+    });
 
     if (!user) {
       throw CustomError.notFound('user not found');
@@ -19,20 +27,14 @@ export class FinderUserService {
     return user;
   }
 
-  async executeByEmail0rName(email?: string, name?: string) {
-    let search: string | undefined = email ? email : name;
-    let key: string = email ? 'email' : 'name';
-
+  async executeByEmail(email: string) {
     const user = await User.findOne({
-      where: { [key]: search, status: true },
+      where: { email, status: true },
     });
-
-    console.log(user);
 
     if (!user) {
       throw CustomError.notFound('user not found');
     }
-    console.log(user);
     return user;
   }
 }

@@ -5,7 +5,7 @@ import { FinderUserService } from './services/finder-users.service';
 import { UpdateUserService } from './services/update-user.service';
 import { DeleteUserService } from './services/delete-user.service';
 import { handleError } from '../common/handleError';
-import { LoginUserDto, RegisterUserDto } from '../../domain';
+import { LoginUserDto, RegisterUserDto, UpdateUserDto } from '../../domain';
 
 export class UserController {
   constructor(
@@ -29,7 +29,7 @@ export class UserController {
     const [error, data] = RegisterUserDto.execute(req.body);
 
     if (error) {
-      res.status(422).json({
+      return res.status(422).json({
         status: 'validate error',
         message: error,
       });
@@ -44,7 +44,7 @@ export class UserController {
     const [error, data] = LoginUserDto.execute(req.body);
 
     if (error) {
-      res.status(422).json({
+      return res.status(422).json({
         status: 'validate error',
         message: error,
       });
@@ -81,10 +81,10 @@ export class UserController {
 
   updateUser = (req: Request, res: Response) => {
     const { id } = req.params;
-    const [error, data] = RegisterUserDto.execute(req.body);
+    const [error, data] = UpdateUserDto.execute(req.body);
 
     if (error) {
-      res.status(422).json({
+      return res.status(422).json({
         status: 'validate error',
         message: error,
       });

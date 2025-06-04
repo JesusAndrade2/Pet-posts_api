@@ -3,8 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { User } from './user.model';
 
 export enum PetPostStatus {
   PENDING = 'pending',
@@ -41,12 +44,6 @@ export class PetPost extends BaseEntity {
   })
   status: PetPostStatus;
 
-  @Column('varchar', {
-    length: 70,
-    nullable: false,
-  })
-  owner: string;
-
   @Column('boolean', {
     default: false,
     nullable: false,
@@ -55,4 +52,8 @@ export class PetPost extends BaseEntity {
 
   @CreateDateColumn()
   create_at: Date;
+
+  @ManyToOne(() => User, (user) => user.pet_post)
+  @JoinColumn({ name: 'owner' })
+  user: User;
 }

@@ -14,19 +14,19 @@ import {
 
 export const UpdatePetPostsSchema = object({
   pet_name: pipe(
-    string('pet_name is required'),
+    string('pet_name is not in format required'),
     minLength(3, 'pet_name must be at least 3 characters long'),
     maxLength(70, 'pet_name must be at most 70 characters long')
   ),
 
   description: pipe(
-    string('description is required'),
+    string('description is not in format required'),
     minLength(10, 'description must be at least 10 characters long'),
     maxLength(1000, 'description must be at most 1000 characters long')
   ),
 
   image_url: pipe(
-    string('image_url is required'),
+    string('image_url is not in format required'),
     url('image_url must be a valid URL')
   ),
 
@@ -44,8 +44,21 @@ export class UpdatePetPostsDto {
   static execute(input: { [key: string]: any }): [string?, UpdatePetPostsDto?] {
     const result = safeParse(UpdatePetPostsSchema, input);
 
+    if (!('pet_name' in input)) {
+      return ['pet_name is required'];
+    }
+    if (!('description' in input)) {
+      return ['description is required'];
+    }
+    if (!('hasFound' in input)) {
+      return ['hasFound is required'];
+    }
+    if (!('image_url' in input)) {
+      return ['image_url is required'];
+    }
+
     if (!result.success) {
-      const error = result.issues[0]?.message ?? 'validacion failed';
+      const error = result.issues[0]?.message ?? 'validation failed';
       return [error];
     }
 
